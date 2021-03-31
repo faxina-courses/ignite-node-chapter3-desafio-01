@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  ignite3:
+    container_name: ignite3
+    build: .
+    ports:
+      - 3332:3333
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - ignite3-db
+    networks:
+      - ignite3-network
+  ignite3-db:
+    container_name: ignite3-db
+    image: postgres:13.0
+    restart: always
+    ports:
+      - 5430:5432
+    environment: 
+      - POSTGRES_DB=queries_challenge
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - TZ=GMT
+      - PG_DATA=/var/lib/postgresql/data
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+    networks: 
+      - ignite3-network
+networks:
+  ignite3-network:
+volumes:
+  pgdata:
