@@ -14,6 +14,12 @@ usersRoutes.get(
   }
 );
 
+usersRoutes.get("/", async (request: Request, response: Response) => {
+  const usersRepository = new UsersRepository();
+  const amontOfgames = await usersRepository.findAllUsersOrderedByFirstName();
+  return response.status(200).send(amontOfgames);
+});
+
 usersRoutes.get(
   "/first-name/:firstName/last-name/:lastName",
   async (request: Request, response: Response) => {
