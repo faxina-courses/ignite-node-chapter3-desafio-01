@@ -12,5 +12,10 @@ gamesRoutes.get(
     return response.status(200).send(games);
   }
 );
+gamesRoutes.get("/count", async (request: Request, response: Response) => {
+  const gamesRepository = new GamesRepository();
+  const amontOfgames = await gamesRepository.countAllGames();
+  return response.status(200).send(amontOfgames);
+});
 
 export { gamesRoutes };

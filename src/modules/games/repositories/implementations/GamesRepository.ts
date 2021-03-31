@@ -17,12 +17,11 @@ export class GamesRepository implements IGamesRepository {
       .createQueryBuilder("games")
       .where("LOWER(games.title) LIKE LOWER(:title)", { title: `%${param}%` })
       .getMany();
-    // Complete usando query builder
   }
 
-  // async countAllGames(): Promise<[{ count: string }]> {
-  //   return this.repository.query(); // Complete usando raw query
-  // }
+  async countAllGames(): Promise<[{ count: string }]> {
+    return this.repository.query("SELECT COUNT(*) FROM games");
+  }
 
   // async findUsersByGameId(id: string): Promise<User[]> {
   //   return this.repository.createQueryBuilder();
