@@ -11,11 +11,11 @@ export class UsersRepository implements IUsersRepository {
     this.repository = getRepository(User);
   }
 
-  // async findUserWithGamesById({
-  //   user_id,
-  // }: IFindUserWithGamesDTO): Promise<User> {
-  //   // Complete usando ORM
-  // }
+  async findUserWithGamesById({
+    user_id,
+  }: IFindUserWithGamesDTO): Promise<User | undefined> {
+    return this.repository.findOne(user_id, { relations: ["games"] });
+  }
 
   async findAllUsersOrderedByFirstName(): Promise<User[]> {
     return this.repository.query(
@@ -32,12 +32,13 @@ export class UsersRepository implements IUsersRepository {
     first_name,
     last_name,
   }: IFindUserByFullNameDTO): Promise<User[] | undefined> {
+    const fullName = `${first_name}${last_name}`
     return this.repository.query(
       `
         SELECT
           *
         FROM users
-        WHERE users.first_name = $1 AND users.last_name = $2;
+        WHERE LOWER(users.first_name) = LOWER($1) AND LOWER(users.last_name) = LOWER($2);
     `,
       [first_name, last_name]
     );

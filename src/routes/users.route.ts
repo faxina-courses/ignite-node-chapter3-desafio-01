@@ -20,6 +20,15 @@ usersRoutes.get("/", async (request: Request, response: Response) => {
   return response.status(200).send(amontOfgames);
 });
 
+usersRoutes.get("/:userid", async (request: Request, response: Response) => {
+  const { userid } = request.params;
+  const usersRepository = new UsersRepository();
+  const amontOfgames = await usersRepository.findUserWithGamesById({
+    user_id: userid,
+  });
+  return response.status(200).send(amontOfgames);
+});
+
 usersRoutes.get(
   "/first-name/:firstName/last-name/:lastName",
   async (request: Request, response: Response) => {
