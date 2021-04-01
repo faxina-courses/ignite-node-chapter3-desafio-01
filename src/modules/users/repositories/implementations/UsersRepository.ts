@@ -32,7 +32,6 @@ export class UsersRepository implements IUsersRepository {
     first_name,
     last_name,
   }: IFindUserByFullNameDTO): Promise<User[] | undefined> {
-    const fullName = `${first_name}${last_name}`
     return this.repository.query(
       `
         SELECT
